@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EmailService
 {
-    public class EmailService
+    public class EmailService : IEmailService
     {
         private readonly IEmailProvider _emailProvider;
 
@@ -21,6 +21,10 @@ namespace EmailService
                     break;
             }
 
+            if (_emailProvider == null)
+            {
+                throw new ArgumentOutOfRangeException(nameof(emailOptions.Provider), "Unsupported email provider specified in EmailOptions.");
+            }
         }
 
         public Task SendAsync(MailMessage message)
